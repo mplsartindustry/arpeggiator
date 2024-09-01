@@ -1,0 +1,103 @@
+(footprint "MIDI Jack"
+	(version 20240108)
+	(generator "pcbnew")
+	(generator_version "8.0")
+	(layer "F.Cu")
+	(property "Reference" "REF**"
+		(at 0 -0.5 0)
+		(unlocked yes)
+		(layer "F.SilkS")
+		(uuid "98ad5a41-6eb9-41e1-9e8f-1f05753058dd")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "MIDI Jack"
+		(at 0 1 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(uuid "78aacd85-365e-4cda-ac68-b5079a12d908")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Footprint" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "765ed034-c611-4f17-8f43-bc43c478003b")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "2f9ff2e1-88fe-4aef-8037-ef6e164dd479")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "e0d889ff-c649-49be-8f6c-5eefe2fd943f")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr through_hole)
+	(fp_text user "${REFERENCE}"
+		(at 0 2.5 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(uuid "f2f451ca-893d-41e8-bdc9-be3d1cdab44e")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(pad "" np_thru_hole circle
+		(at -10.715625 0)
+		(size 3.96875 3.96875)
+		(drill 3.96875)
+		(layers "*.Mask")
+		(uuid "93b6f785-8f4b-48b1-986c-4dfd5c8580e2")
+	)
+	(pad "" np_thru_hole circle
+		(at 0 0)
+		(size 15.875 15.875)
+		(drill 15.875)
+		(layers "*.Mask")
+		(uuid "a8529985-5fdc-4e9c-acb6-778024eb6b9d")
+	)
+	(pad "" np_thru_hole circle
+		(at 10.715625 0)
+		(size 3.96875 3.96875)
+		(drill 3.96875)
+		(layers "*.Mask")
+		(uuid "7f23d2f3-f713-41b6-b12f-752f8ba0de32")
+	)
+)

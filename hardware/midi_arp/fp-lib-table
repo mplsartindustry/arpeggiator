@@ -1,0 +1,5 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "teensy")(type "KiCad")(uri "${KIPRJMOD}/teensy.pretty")(options "")(descr ""))
+  (lib (name "panel")(type "KiCad")(uri "${KIPRJMOD}/panel.pretty")(options "")(descr ""))
+)

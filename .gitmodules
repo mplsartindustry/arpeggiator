@@ -1,0 +1,6 @@
+[submodule "hardware/midi_arp/teensy.pretty"]
+	path = hardware/midi_arp/teensy.pretty
+	url = https://github.com/XenGi/teensy.pretty.git
+[submodule "hardware/midi_arp/teensy_library"]
+	path = hardware/midi_arp/teensy_library
+	url = https://github.com/XenGi/teensy_library.git
