@@ -13,7 +13,8 @@ const uint8_t MAX_NOTE = 60;
 const double MAX_VOLTS_OUT = 5.36;
 
 uint8_t notesOnSorted[128];
-uint8_t notesOnCount;
+uint8_t notesOnCount; // Number of playing notes
+uint8_t notesDownCount; // Actual number of keys pressed
 
 int arp;
 int16_t arpIndex;
@@ -48,15 +49,16 @@ enum Arp {
 
 void fullReset() {
   notesOnCount = 0;
+  notesDownCount = 0;
   arpIndex = 0;
   pitchBend = 0.0;
   arpDirection = 1;
   holdMode = false;
+
+  digitalWrite(HOLD_LED_OUT_PIN, LOW);
 }
 
 void setup() {
-  fullReset();
-
   arp = ARP_REVERSE;
 
   pinMode(CLOCK_IN_PIN, INPUT_PULLUP);
@@ -64,6 +66,8 @@ void setup() {
   pinMode(GATE_OUT_PIN, OUTPUT);
   pinMode(TRIGGER_OUT_PIN, OUTPUT);
   pinMode(HOLD_LED_OUT_PIN, OUTPUT);
+
+  fullReset();
 
   // TODO: Implement these
   digitalWrite(TRIGGER_OUT_PIN, HIGH);
@@ -255,6 +259,11 @@ void handleNoteOn(byte channel, byte note, byte velocity) {
   //   arp = note - 60;
   // }
 
+  // If new note is pressed, release held notes
+  if (holdMode && notesDownCount == 0) {
+    notesOnCount = 0;
+  }
+
   for (uint8_t i = 0; i < notesOnCount; i++) {
     uint8_t currentNote = notesOnSorted[i];
     
@@ -270,6 +279,7 @@ void handleNoteOn(byte channel, byte note, byte velocity) {
 
       notesOnSorted[i] = note;
       notesOnCount++;
+      notesDownCount++;
 
       if (arpIndex >= i)
         arpIndex++;
@@ -281,9 +291,16 @@ void handleNoteOn(byte channel, byte note, byte velocity) {
   // Note is highest, add to end of list
   notesOnSorted[notesOnCount] = note;
   notesOnCount++;
+  notesDownCount++;
 }
 
 void handleNoteOff(byte channel, byte note, byte velocity) {
+  notesDownCount--;
+
+  if (holdMode) {
+    return;
+  }
+
   for (uint8_t i = 0; i < notesOnCount; i++) {
     uint8_t currentNote = notesOnSorted[i];
     if (currentNote == note) {
@@ -323,6 +340,15 @@ void handleControlChange(byte channel, byte control, byte value) {
   } else if (control == 80 || control == 23) {
     // Toggle hold mode
     holdMode ^= (value == 127);
+    digitalWrite(HOLD_LED_OUT_PIN, holdMode);
+
+    if (!holdMode) {
+      // Release notes
+      notesDownCount = notesOnCount = 0;
+    }
+  } else if (control == 81 || control == 22) {
+    // Release notes
+    notesDownCount = notesOnCount = 0;
   }
 }
 
