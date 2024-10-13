@@ -291,8 +291,11 @@ void onNoteOff(byte channel, byte note, byte velocity) {
     case ORDER_ORDERED: index = indices.ordered; break;
   }
 
-  if (index >= 0 && arpIndex > index) {
-    // Arp was on a note after this one, move it back to that note
+  // Case 1: Arp was on a note after this one, move it back to that note
+  // Case 2: Arp was on this note, move it back to the previous note
+  //   But don't move it back if this is the first note, since that would go
+  //   out of bounds
+  if ((index >= 0 && arpIndex > index) || (index > 0 && arpIndex == index)) {
     arpIndex--;
   }
 }
@@ -338,13 +341,13 @@ void onControlChange(byte channel, byte control, byte value) {
 }
 
 void loop() {
+  bool prevPlaying = notesPlaying.noteCount > 0;
   MIDI.read();
+  bool playing = notesPlaying.noteCount > 0;
 
   // Inputs are inverted
   bool clock = !digitalRead(PIN_CLOCK_IN);
-  bool reset = !digitalRead(PIN_RESET_IN);
-
-  bool playing = notesPlaying.noteCount > 0;
+  bool reset = !digitalRead(PIN_RESET_IN) || (playing && !prevPlaying);
 
   if (playing) {
     if (reset) {
